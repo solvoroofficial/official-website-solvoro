@@ -4,278 +4,243 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Solvoro — Edit Profile</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --accent: #0f766e;
-      --accent-soft: #e0f2f1;
+      --bg: #f7f7f7;
+      --card-bg: #ffffff;
       --border: #e5e5e5;
-      --bg: #f5f5f5;
-      --text-main: #111827;
-      --text-muted: #6b7280;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --accent: #111111;
+      --shadow-soft: 0 12px 40px rgba(0,0,0,0.05);
     }
+
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    /* Header (same style to reuse on homepage) */
-    .header {
+    .top-bar {
       position: sticky;
       top: 0;
       z-index: 10;
-      backdrop-filter: blur(12px);
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid rgba(229, 231, 235, 0.7);
-    }
-    .header-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 12px 16px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand-logo {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #f9fafb, #e5e7eb);
-      border: 1px solid #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--text-main);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    }
-    .brand-text-title {
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .brand-text-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 14px;
-    }
-    .nav-link {
-      border-radius: 999px;
-      padding: 6px 12px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-muted);
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 150ms ease, border-color 150ms ease, color 150ms ease,
-        transform 150ms ease, box-shadow 150ms ease;
-    }
-    .nav-link:hover {
-      background: #f9fafb;
-      border-color: #e5e7eb;
-      color: var(--text-main);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-    }
-    .nav-link.active {
-      background: #111827;
-      color: #f9fafb;
-      border-color: #111827;
-    }
-    .signout-btn {
-      font-size: 13px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      background: #ffffff;
-      cursor: pointer;
-      color: var(--text-muted);
-      transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-    }
-    .signout-btn:hover {
-      background: #f3f4f6;
-      transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
-    }
-    .header-user {
+
+    .top-left {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
-      color: var(--text-muted);
     }
 
-    /* Layout */
-    .page {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 16px 40px;
-    }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(8px);
-      animation: fadeInUp 260ms ease-out forwards;
-    }
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .top-left img {
+      height: 28px;
+      width: auto;
     }
 
-    .page-title {
-      font-size: 22px;
+    .brand-name {
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .page-subtitle {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
+      letter-spacing: 0.04em;
     }
 
-    .profile-card {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 18px 40px rgba(15,23,42,0.06);
-      padding: 20px 20px 24px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
-      gap: 20px;
-      transition: transform 160ms ease, box-shadow 160ms ease;
-    }
-    .profile-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 22px 50px rgba(15,23,42,0.12);
-    }
-
-    @media (max-width: 720px) {
-      .profile-card {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .avatar-block {
+    .top-right {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 10px;
+      gap: 12px;
     }
-    .avatar-circle {
-      width: 56px;
-      height: 56px;
+
+    .top-link {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 10px;
       border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #f9fafb, #e5e7eb);
+      border: 1px solid transparent;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+
+    .top-link:hover {
+      border-color: var(--border);
+      background: #f2f2f2;
+      color: var(--text-main);
+    }
+
+    .avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #111111;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 14px;
       font-weight: 600;
-      font-size: 22px;
-      color: #111827;
-      border: 1px solid #d1d5db;
-      box-shadow: 0 10px 22px rgba(15,23,42,0.20);
     }
-    .avatar-info-main {
+
+    .page-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 20px 12px 32px;
+    }
+
+    .edit-shell {
+      width: 100%;
+      max-width: 960px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 18px;
+      animation: floatIn 0.35s ease-out;
+    }
+
+    @media (max-width: 768px) {
+      .edit-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px 18px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 18px;
       font-weight: 600;
-      font-size: 16px;
     }
-    .avatar-info-sub {
+
+    .card-sub {
       font-size: 13px;
       color: var(--text-muted);
     }
-    .badge {
-      display: inline-flex;
+
+    .profile-snap {
+      display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      color: var(--text-muted);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .profile-avatar-large {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #111111;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .profile-snap-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .profile-snap-name {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    form {
       margin-top: 6px;
-    }
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #10b981;
-    }
-
-    .section-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-    .divider {
-      border: none;
-      border-top: 1px dashed #e5e7eb;
-      margin: 16px 0;
-    }
-
-    .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px 16px;
+      gap: 12px 16px;
     }
+
     @media (max-width: 640px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
+      form {
+        grid-template-columns: minmax(0, 1fr);
       }
     }
+
     .field {
       display: flex;
       flex-direction: column;
       gap: 4px;
-    }
-    .field label {
       font-size: 13px;
-      color: var(--text-muted);
-    }
-    .input, .textarea {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      padding: 9px 11px;
-      font-size: 14px;
-      background: #f9fafb;
-      outline: none;
-      transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease, transform 150ms ease;
-    }
-    .textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-    .input:focus,
-    .textarea:focus {
-      border-color: #111827;
-      background: #ffffff;
-      box-shadow: 0 0 0 1px #1118270f, 0 10px 24px rgba(15,23,42,0.10);
-      transform: translateY(-1px);
     }
 
-    .required {
-      color: #b91c1c;
-      margin-left: 3px;
+    label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    label span {
+      color: #c62828;
+    }
+
+    input, textarea {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 9px 10px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      background: #ffffff;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #111111;
+      box-shadow: 0 0 0 1px #11111111;
+    }
+
+    input[readonly] {
+      background: #f5f5f5;
+      cursor: not-allowed;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .col-span-2 {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 640px) {
+      .col-span-2 {
+        grid-column: span 1;
+      }
     }
 
     .hint {
@@ -283,202 +248,270 @@
       color: var(--text-muted);
     }
 
-    .btn-row {
+    .button-row {
+      margin-top: 14px;
       display: flex;
-      justify-content: flex-end;
       gap: 10px;
-      margin-top: 20px;
+      flex-wrap: wrap;
     }
-    .btn {
+
+    .btn-solid {
+      padding: 9px 18px;
       border-radius: 999px;
-      padding: 9px 16px;
+      border: 1px solid #111111;
+      background: #111111;
+      color: #ffffff;
       font-size: 13px;
-      font-weight: 500;
-      border: 1px solid transparent;
-      background: #111827;
-      color: #f9fafb;
       cursor: pointer;
-      transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+      transition: background 0.16s ease, transform 0.06s ease;
     }
-    .btn:hover {
-      background: #020617;
+
+    .btn-solid:hover {
+      background: #000000;
       transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(15,23,42,0.30);
     }
-    .btn-secondary {
+
+    .btn-outline {
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
       background: #ffffff;
-      color: var(--text-muted);
-      border-color: #e5e7eb;
-      box-shadow: 0 4px 12px rgba(15,23,42,0.06);
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.16s ease, border-color 0.16s ease;
     }
-    .btn-secondary:hover {
-      background: #f3f4f6;
+
+    .btn-outline:hover {
+      background: #f3f3f3;
+      border-color: #d4d4d4;
     }
 
     .status {
       margin-top: 10px;
       font-size: 12px;
-      min-height: 18px;
       color: var(--text-muted);
     }
+
     .status.error {
-      color: #b91c1c;
+      color: #c62828;
     }
+
     .status.success {
-      color: #15803d;
+      color: #2e7d32;
     }
+
+    .side-info {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .side-info-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
     .pill {
       display: inline-flex;
       align-items: center;
-      padding: 4px 9px;
+      justify-content: center;
+      padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      font-size: 11px;
-      color: var(--text-muted);
-      background: #f9fafb;
-      margin-top: 4px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
     }
 
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: #a3a3a3;
+      padding: 10px 0 18px;
+    }
   </style>
 </head>
 <body>
   <!-- Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-logo">S</div>
-        <div>
-          <div class="brand-text-title">Solvoro</div>
-          <div class="brand-text-sub">Client area</div>
-        </div>
-      </div>
-      <nav class="nav-links">
-        <!-- You can reuse this same header on homepage / other pages -->
-        <a href="dashboard.html" class="nav-link">Home</a>
-        <a href="services.html" class="nav-link">Services</a>
-        <a href="profile.html" class="nav-link">Profile</a>
-        <div class="header-user" id="headerUserEmail"></div>
-        <button id="signOutBtn" class="signout-btn">Sign out</button>
-      </nav>
+  <header class="top-bar">
+    <div class="top-left">
+      <img src="logo.png" alt="Solvoro Logo">
+      <span class="brand-name">SOLVORO</span>
+    </div>
+    <div class="top-right">
+      <a href="dashboard-home.html" class="top-link">Home</a>
+      <a href="services.html" class="top-link">Services</a>
+      <a href="profile.html" class="top-link">Profile</a>
+      <div id="headerAvatar" class="avatar-circle">S</div>
     </div>
   </header>
 
   <!-- Main -->
-  <main class="page">
-    <section class="fade-in">
-      <h1 class="page-title">Edit profile</h1>
-      <p class="page-subtitle">
-        Keep your details up to date. Phone is required. User ID is chosen by you.
-      </p>
-
-      <div class="profile-card" id="profileCard" style="display:none;">
-        <!-- Left column: avatar + basic info + about -->
-        <div>
-          <div class="avatar-block">
-            <div class="avatar-circle" id="avatarCircle">S</div>
-            <div>
-              <div class="avatar-info-main" id="avatarName">Your name</div>
-              <div class="avatar-info-sub" id="avatarEmail">email@example.com</div>
-              <div class="badge">
-                <span class="badge-dot"></span>
-                <span id="badgeText">Profile draft</span>
-              </div>
-            </div>
-          </div>
-
-          <hr class="divider">
-
+  <div class="page-wrap">
+    <div class="edit-shell">
+      <!-- Edit card -->
+      <section class="card">
+        <div class="card-header">
           <div>
-            <div class="section-label">About</div>
-            <div class="field">
-              <textarea id="about" class="textarea" placeholder="Tell us a little about yourself (optional)."></textarea>
-              <div class="hint">You can leave this empty if you want.</div>
-            </div>
+            <div class="card-title">Edit profile</div>
+            <div class="card-sub">Keep your information up to date</div>
           </div>
         </div>
 
-        <!-- Right column: form fields -->
+        <div class="profile-snap">
+          <div id="profileAvatar" class="profile-avatar-large">S</div>
+          <div class="profile-snap-text">
+            <div id="snapName" class="profile-snap-name">Loading...</div>
+            <div id="snapMail" class="hint"></div>
+          </div>
+        </div>
+
         <form id="profileForm">
-          <div class="section-label">Account details</div>
-          <div class="grid-2">
-            <div class="field">
-              <label>Full name<span class="required">*</span></label>
-              <input id="fullName" class="input" type="text" placeholder="Your full name" required />
-            </div>
-            <div class="field">
-              <label>Phone number<span class="required">*</span></label>
-              <input id="phone" class="input" type="tel" placeholder="10-digit phone" required />
-              <div class="hint">We'll use this for contacting you.</div>
-            </div>
-            <div class="field">
-              <label>User ID<span class="required">*</span></label>
-              <input id="userId" class="input" type="text" placeholder="choose-your-id" />
-              <div class="hint" id="userIdHint">
-                This is your public handle. It must be unique. Cannot be changed later.
-              </div>
-            </div>
-            <div class="field">
-              <label>Email</label>
-              <input id="email" class="input" type="email" disabled />
-              <div class="hint">Comes from your Solvoro login.</div>
-            </div>
+          <!-- Name -->
+          <div class="field col-span-2">
+            <label>Full name <span>*</span></label>
+            <input id="fullName" type="text" placeholder="Enter your full name" required />
           </div>
 
-          <hr class="divider">
-
-          <div class="section-label">Address</div>
-          <div class="grid-2">
-            <div class="field">
-              <label>Address line</label>
-              <input id="addressLine" class="input" type="text" placeholder="House / street (optional)" />
-            </div>
-            <div class="field">
-              <label>City</label>
-              <input id="city" class="input" type="text" placeholder="City" />
-            </div>
-            <div class="field">
-              <label>State</label>
-              <input id="state" class="input" type="text" placeholder="State" />
-            </div>
-            <div class="field">
-              <label>Country</label>
-              <input id="country" class="input" type="text" placeholder="Country" />
-            </div>
+          <!-- User ID (username) -->
+          <div class="field">
+            <label>User ID (username) <span>*</span></label>
+            <input id="userId" type="text" placeholder="choose-your-id" required />
+            <div class="hint">This is unique. Two people cannot have the same user ID.</div>
           </div>
 
-          <div class="status" id="statusText"></div>
-
-          <div class="btn-row">
-            <button type="button" class="btn btn-secondary" id="viewProfileBtn">
-              View profile
-            </button>
-            <button type="submit" class="btn" id="saveBtn">
-              Save changes
-            </button>
+          <!-- Phone -->
+          <div class="field">
+            <label>Phone number <span>*</span></label>
+            <input id="phone" type="tel" placeholder="10-digit mobile number" required />
           </div>
 
-          <div class="pill" id="userIdLockedPill" style="display:none;">
-            User ID is set and locked. Contact support if you need to change it.
+          <!-- Email (readonly) -->
+          <div class="field col-span-2">
+            <label>Email</label>
+            <input id="email" type="email" readonly />
+            <div class="hint">Email comes from your login and cannot be changed here.</div>
+          </div>
+
+          <!-- Address -->
+          <div class="field col-span-2">
+            <label>Address</label>
+            <textarea id="address" placeholder="House no, street, area"></textarea>
+          </div>
+
+          <div class="field">
+            <label>City</label>
+            <input id="city" type="text" placeholder="City" />
+          </div>
+
+          <div class="field">
+            <label>State</label>
+            <input id="state" type="text" placeholder="State" />
+          </div>
+
+          <div class="field">
+            <label>Pincode</label>
+            <input id="pincode" type="text" placeholder="Pincode" />
+          </div>
+
+          <!-- Aadhaar -->
+          <div class="field">
+            <label>Aadhaar number</label>
+            <input id="aadhaar" type="text" placeholder="XXXX-XXXX-XXXX (optional)" />
+            <div class="hint">Optional. Used for age verification and special offers from admin.</div>
+          </div>
+
+          <!-- Job / Study / More -->
+          <div class="field">
+            <label>Job / work</label>
+            <input id="job" type="text" placeholder="What do you work as?" />
+          </div>
+
+          <div class="field">
+            <label>Study</label>
+            <input id="study" type="text" placeholder="School, college or course" />
+          </div>
+
+          <div class="field col-span-2">
+            <label>More about you</label>
+            <textarea id="moreInfo" placeholder="Anything else you want us to know"></textarea>
           </div>
         </form>
-      </div>
-    </section>
-  </main>
 
-  <!-- Firebase + logic -->
+        <div class="button-row">
+          <button id="saveBtn" class="btn-solid">Save changes</button>
+          <button id="cancelBtn" class="btn-outline">Cancel</button>
+        </div>
+
+        <div id="statusText" class="status">Fill your details and tap “Save changes”.</div>
+      </section>
+
+      <!-- Right info card -->
+      <section class="card">
+        <div class="side-info">
+          <div>
+            <div class="side-info-title">Why we ask these details</div>
+            <p>We use your profile data to:</p>
+            <ul style="padding-left:18px; margin:6px 0;">
+              <li>Show your name and user ID inside Solvoro.</li>
+              <li>Contact you for orders and support.</li>
+              <li>Verify age or eligibility if admin applies special discounts.</li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="side-info-title">Privacy</div>
+            <p>Aadhaar and contact details are not visible to other users. They are used only by the Solvoro team.</p>
+          </div>
+
+          <div>
+            <div class="side-info-title">Quick tips</div>
+            <div>
+              <span class="pill">Use a clean user ID</span>
+              <span class="pill">Add your real phone</span>
+              <span class="pill">Keep address updated</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    © <span id="year"></span> Solvoro. All rights reserved.
+  </footer>
+
+  <!-- Firebase & edit logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import {
       getAuth,
-      onAuthStateChanged,
-      signOut,
+      onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
     import {
       getFirestore,
       doc,
       getDoc,
       setDoc,
-      updateDoc,
+      collection,
+      query,
+      where,
+      getDocs,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
@@ -496,197 +529,182 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const profileCard = document.getElementById("profileCard");
-    const avatarCircle = document.getElementById("avatarCircle");
-    const avatarName = document.getElementById("avatarName");
-    const avatarEmail = document.getElementById("avatarEmail");
-    const badgeText = document.getElementById("badgeText");
-    const headerUserEmail = document.getElementById("headerUserEmail");
+    const yearSpan = document.getElementById("year");
+    yearSpan.textContent = new Date().getFullYear().toString();
+
+    const headerAvatar = document.getElementById("headerAvatar");
+    const profileAvatar = document.getElementById("profileAvatar");
+    const snapName = document.getElementById("snapName");
+    const snapMail = document.getElementById("snapMail");
 
     const fullNameInput = document.getElementById("fullName");
-    const phoneInput = document.getElementById("phone");
     const userIdInput = document.getElementById("userId");
-    const userIdHint = document.getElementById("userIdHint");
+    const phoneInput = document.getElementById("phone");
     const emailInput = document.getElementById("email");
-    const addressLineInput = document.getElementById("addressLine");
+    const addressInput = document.getElementById("address");
     const cityInput = document.getElementById("city");
     const stateInput = document.getElementById("state");
-    const countryInput = document.getElementById("country");
-    const aboutInput = document.getElementById("about");
+    const pincodeInput = document.getElementById("pincode");
+    const aadhaarInput = document.getElementById("aadhaar");
+    const jobInput = document.getElementById("job");
+    const studyInput = document.getElementById("study");
+    const moreInfoInput = document.getElementById("moreInfo");
 
-    const statusText = document.getElementById("statusText");
     const saveBtn = document.getElementById("saveBtn");
-    const signOutBtn = document.getElementById("signOutBtn");
-    const viewProfileBtn = document.getElementById("viewProfileBtn");
-    const userIdLockedPill = document.getElementById("userIdLockedPill");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const statusText = document.getElementById("statusText");
 
     let currentUser = null;
-    let existingProfile = null;
+    let isSaving = false;
 
-    function firstLetter(str) {
-      if (!str) return "S";
-      return str.trim().charAt(0).toUpperCase();
+    function setAvatarFromEmail(email) {
+      if (!email) return;
+      const letter = email.trim()[0]?.toUpperCase() || "S";
+      headerAvatar.textContent = letter;
+      profileAvatar.textContent = letter;
     }
 
-    function setStatus(message, type = "normal") {
-      statusText.textContent = message || "";
+    function setStatus(msg, type = "normal") {
+      statusText.textContent = msg;
       statusText.classList.remove("error", "success");
       if (type === "error") statusText.classList.add("error");
       if (type === "success") statusText.classList.add("success");
     }
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        // Not logged in: back to your login page
-        window.location.href = "index.html"; // change if your login page is named differently
-        return;
-      }
-      currentUser = user;
-      const email = user.email || "";
-      headerUserEmail.textContent = email;
-      emailInput.value = email;
-      avatarEmail.textContent = email;
-      avatarCircle.textContent = firstLetter(email);
-
-      try {
-        const profileRef = doc(db, "profiles", user.uid);
-        const snap = await getDoc(profileRef);
-        if (snap.exists()) {
-          existingProfile = snap.data();
-          fillForm(existingProfile);
-          badgeText.textContent = "Profile live";
-        } else {
-          badgeText.textContent = "Profile draft";
-        }
-        profileCard.style.display = "grid";
-      } catch (err) {
-        console.error(err);
-        setStatus("Failed to load profile.", "error");
-        profileCard.style.display = "grid";
-      }
+    cancelBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "profile.html";
     });
 
-    function fillForm(data) {
-      if (!data) return;
-      fullNameInput.value = data.fullName || "";
-      phoneInput.value = data.phone || "";
-      userIdInput.value = data.userId || "";
-      addressLineInput.value = data.addressLine || "";
-      cityInput.value = data.city || "";
-      stateInput.value = data.state || "";
-      countryInput.value = data.country || "";
-      aboutInput.value = data.about || "";
+    async function loadProfile(user) {
+      snapName.textContent = "Loading...";
+      snapMail.textContent = user.email || "";
 
-      const displayName = data.fullName || currentUser?.email || "Your name";
-      avatarName.textContent = displayName;
-      avatarCircle.textContent = firstLetter(displayName);
+      try {
+        const ref = doc(db, "profiles", user.uid);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) {
+          snapName.textContent = "New user";
+          emailInput.value = user.email || "";
+          setStatus("Fill your details and tap “Save changes”.");
+          return;
+        }
 
-      if (data.userId) {
-        userIdInput.disabled = true;
-        userIdHint.textContent = "User ID is set and locked.";
-        userIdLockedPill.style.display = "inline-flex";
+        const data = snap.data();
+        fullNameInput.value = data.fullName || "";
+        userIdInput.value = data.userId || "";
+        phoneInput.value = data.phone || "";
+        emailInput.value = data.email || user.email || "";
+        addressInput.value = data.address || "";
+        cityInput.value = data.city || "";
+        stateInput.value = data.state || "";
+        pincodeInput.value = data.pincode || "";
+        aadhaarInput.value = data.aadhaar || "";
+        jobInput.value = data.job || "";
+        studyInput.value = data.study || "";
+        moreInfoInput.value = data.moreInfo || "";
+
+        snapName.textContent = data.fullName || "New user";
+        setStatus("You can update any field and save.");
+      } catch (err) {
+        snapName.textContent = "Profile";
+        setStatus("Could not load profile. You can still try to save.", "error");
       }
     }
 
-    // Save profile
-    document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    async function checkUserIdUnique(userId, currentUid) {
+      if (!userId) return false;
+      const col = collection(db, "profiles");
+      const q = query(col, where("userId", "==", userId));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return true;
+
+      // If found, ensure it belongs to the same user
+      if (snapshot.docs.length === 1 && snapshot.docs[0].id === currentUid) {
+        return true;
+      }
+      return false;
+    }
+
+    saveBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      if (!currentUser) return;
+      if (!currentUser || isSaving) return;
 
       const fullName = fullNameInput.value.trim();
-      const phone = phoneInput.value.trim();
       const userId = userIdInput.value.trim();
-      const addressLine = addressLineInput.value.trim();
-      const city = cityInput.value.trim();
-      const state = stateInput.value.trim();
-      const country = countryInput.value.trim();
-      const about = aboutInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const email = currentUser.email || "";
 
-      setStatus("");
-      statusText.classList.remove("error", "success");
-
-      if (!fullName) {
-        setStatus("Please enter your full name.", "error");
-        return;
-      }
-      if (!phone) {
-        setStatus("Phone number is required.", "error");
-        return;
-      }
-      if (!userId && !(existingProfile && existingProfile.userId)) {
-        setStatus("Please choose a User ID.", "error");
+      if (!fullName || !userId || !phone) {
+        setStatus("Full name, user ID and phone number are required.", "error");
         return;
       }
 
+      if (phone.length < 8) {
+        setStatus("Please enter a valid phone number.", "error");
+        return;
+      }
+
+      // Aadhaar simple check (optional)
+      const aadhaarRaw = aadhaarInput.value.replace(/\s|-/g, "");
+      if (aadhaarRaw && aadhaarRaw.length !== 12) {
+        setStatus("If you add Aadhaar, please enter 12 digits (or leave it empty).", "error");
+        return;
+      }
+
+      isSaving = true;
       saveBtn.disabled = true;
-      saveBtn.textContent = "Saving...";
+      setStatus("Saving your profile...", "normal");
 
       try {
-        const profileRef = doc(db, "profiles", currentUser.uid);
-
-        // If userId not set yet in Firestore, we must check uniqueness.
-        let finalUserId = existingProfile?.userId || null;
-        if (!finalUserId) {
-          finalUserId = userId.toLowerCase();
-          if (!/^[a-zA-Z0-9._-]+$/.test(finalUserId)) {
-            throw new Error("User ID can only contain letters, numbers, dot, dash and underscore.");
-          }
-
-          const usernameRef = doc(db, "usernames", finalUserId);
-          const usernameSnap = await getDoc(usernameRef);
-          if (usernameSnap.exists()) {
-            throw new Error("This User ID is already taken. Please choose another one.");
-          }
-
-          // Reserve the username for this uid
-          await setDoc(usernameRef, {
-            uid: currentUser.uid,
-            createdAt: serverTimestamp()
-          });
+        const isUnique = await checkUserIdUnique(userId, currentUser.uid);
+        if (!isUnique) {
+          setStatus("This user ID is already taken. Please choose another one.", "error");
+          isSaving = false;
+          saveBtn.disabled = false;
+          return;
         }
 
-        const payload = {
+        const profileRef = doc(db, "profiles", currentUser.uid);
+        await setDoc(profileRef, {
+          uid: currentUser.uid,
+          email,
           fullName,
+          userId,
           phone,
-          userId: finalUserId,
-          addressLine,
-          city,
-          state,
-          country,
-          about,
-          email: currentUser.email || "",
+          address: addressInput.value.trim(),
+          city: cityInput.value.trim(),
+          state: stateInput.value.trim(),
+          pincode: pincodeInput.value.trim(),
+          aadhaar: aadhaarRaw || "",
+          job: jobInput.value.trim(),
+          study: studyInput.value.trim(),
+          moreInfo: moreInfoInput.value.trim(),
           updatedAt: serverTimestamp()
-        };
+        }, { merge: true });
 
-        await setDoc(profileRef, payload, { merge: true });
-
-        existingProfile = { ...(existingProfile || {}), ...payload };
-        fillForm(existingProfile);
-        setStatus("Profile saved.", "success");
-        badgeText.textContent = "Profile live";
+        setStatus("Profile saved successfully.", "success");
+        setTimeout(() => {
+          window.location.href = "profile.html";
+        }, 700);
       } catch (err) {
-        console.error(err);
-        setStatus(err.message || "Failed to save profile.", "error");
+        setStatus("Could not save profile. Please try again.", "error");
       } finally {
+        isSaving = false;
         saveBtn.disabled = false;
-        saveBtn.textContent = "Save changes";
       }
     });
 
-    // Sign out
-    signOutBtn.addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-        window.location.href = "index.html";
-      } catch (err) {
-        console.error(err);
-        setStatus("Failed to sign out.", "error");
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
       }
-    });
-
-    // View profile button
-    viewProfileBtn.addEventListener("click", () => {
-      window.location.href = "profile.html";
+      currentUser = user;
+      setAvatarFromEmail(user.email || "");
+      snapMail.textContent = user.email || "";
+      emailInput.value = user.email || "";
+      loadProfile(user);
     });
   </script>
 </body>
