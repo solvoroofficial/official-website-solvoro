@@ -9,473 +9,458 @@
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top left, #eef2ff, #f9fafb 50%);
-      color: #111827;
-      min-height: 100vh;
-      display: flex;
+      background: #f5f5f7;
+      color: #222;
     }
-    .app-shell {
+
+    .app {
       display: flex;
-      width: 100%;
       min-height: 100vh;
     }
+
     /* Sidebar */
     .sidebar {
-      width: 240px;
-      background: #ffffffcc;
-      backdrop-filter: blur(14px);
-      border-right: 1px solid #e5e7eb;
+      width: 230px;
+      background: #ffffff;
+      border-right: 1px solid #e5e5e5;
       padding: 18px 16px;
       display: flex;
       flex-direction: column;
     }
+
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 24px;
     }
-    .brand-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #a5b4fc, #22c1c3);
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f4f4f4, #e9e9e9);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 18px;
-    }
-    .brand-text-title {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 18px;
+      color: #222;
     }
-    .brand-text-sub {
-      font-size: 12px;
-      color: #6b7280;
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
     }
+
     .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
     }
-    .nav-button {
+
+    .nav-item {
+      margin-bottom: 4px;
+    }
+
+    .nav-link {
+      width: 100%;
       border: none;
       background: transparent;
       text-align: left;
-      padding: 9px 10px;
+      padding: 8px 10px;
       border-radius: 10px;
       font-size: 14px;
-      color: #4b5563;
+      color: #555;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-button span.icon {
-      font-size: 16px;
-    }
-    .nav-button.active {
-      background: linear-gradient(135deg, #eef2ff, #e0f2fe);
-      color: #111827;
-      font-weight: 500;
-    }
-    .sidebar-footer {
-      margin-top: auto;
-      font-size: 11px;
-      color: #9ca3af;
+      display: block;
     }
 
-    /* Main */
-    .main {
-      flex: 1;
-      padding: 18px 20px;
+    .nav-link.active {
+      background: #f0f0f2;
+      color: #222;
+      font-weight: 500;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 8px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .signout-btn {
+      border: 1px solid #ddd;
+      background: #fafafa;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    /* Main area */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 20px;
     }
 
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      margin-bottom: 16px;
     }
 
     .topbar-title {
       font-size: 18px;
-      font-weight: 600;
-    }
-    .topbar-subtitle {
-      font-size: 13px;
-      color: #6b7280;
+      font-weight: 500;
     }
 
-    .topbar-user {
+    .user-chip {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .user-avatar {
+
+    .avatar {
       width: 32px;
       height: 32px;
-      border-radius: 999px;
-      background: #0f766e;
+      border-radius: 50%;
+      background: #e6e6e8;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      font-size: 15px;
       font-weight: 600;
-      font-size: 14px;
-    }
-    .user-email {
-      font-size: 13px;
-      color: #4b5563;
-    }
-    .btn-ghost {
-      padding: 6px 10px;
-      font-size: 13px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      background: white;
-      cursor: pointer;
+      text-transform: uppercase;
+      color: #333;
+      overflow: hidden;
     }
 
-    /* Content / pages */
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: none; /* we only show if photoURL exists */
+    }
+
+    .user-email {
+      font-size: 13px;
+      color: #555;
+    }
+
     .content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
     }
 
     .card {
       background: #ffffff;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      border-radius: 14px;
+      padding: 18px 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
     }
+
     .card-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .card-subtitle {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 10px;
-    }
-
-    .page {
-      display: none;
-    }
-    .page.active {
-      display: block;
-    }
-
-    /* Home page */
-    .home-grid {
-      display: grid;
-      grid-template-columns: minmax(0,2fr) minmax(0,1.4fr);
-      gap: 12px;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: #eff6ff;
-      color: #1d4ed8;
+      font-size: 15px;
+      font-weight: 500;
       margin-bottom: 8px;
     }
 
-    /* Services placeholder */
-    .tag {
-      display: inline-flex;
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: #f3f4f6;
-      color: #4b5563;
-      margin-right: 4px;
+    .card-sub {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .field-row {
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-size: 13px;
+      color: #555;
+      display: block;
       margin-bottom: 4px;
     }
 
-    /* Profile page */
-    .profile-wrap {
-      display: grid;
-      grid-template-columns: minmax(0,2fr) minmax(0,1.4fr);
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      padding: 9px 10px;
+      font-size: 14px;
+      background: #fafafa;
+    }
+
+    .btn-solid,
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 8px 13px;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-solid {
+      background: #222;
+      color: #f9f9f9;
+    }
+
+    .btn-solid[disabled] {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .btn-ghost {
+      background: #f5f5f7;
+      color: #444;
+      border: 1px solid #e2e2e2;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
       gap: 14px;
     }
-    .form-group {
-      margin-top: 10px;
+
+    .grow {
+      flex: 1;
+      min-width: 220px;
     }
-    .form-label {
-      font-size: 13px;
-      color: #4b5563;
-      margin-bottom: 4px;
-      display: block;
-    }
-    .form-input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-      font-size: 14px;
-    }
-    .btn-primary {
-      margin-top: 12px;
-      padding: 9px 14px;
-      font-size: 14px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, #0f766e, #22c55e);
-      color: white;
-      font-weight: 500;
-      cursor: pointer;
-    }
-    .btn-outline {
-      margin-top: 8px;
-      padding: 8px 12px;
-      font-size: 13px;
-      border-radius: 999px;
-      border: 1px solid #0f766e;
-      background: white;
-      color: #0f766e;
-      cursor: pointer;
-    }
-    .helper {
-      font-size: 11px;
-      color: #6b7280;
-      margin-top: 4px;
-    }
-    .status-label {
-      font-size: 12px;
-      margin-top: 8px;
-    }
+
     .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 3px 8px;
       border-radius: 999px;
+      padding: 4px 9px;
       font-size: 11px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      color: #555;
+      margin-top: 4px;
     }
-    .status-pending {
-      background: #fef3c7;
-      color: #92400e;
-    }
-    .status-approved {
-      background: #dcfce7;
-      color: #166534;
-    }
-    .status-rejected {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-    .status-none {
-      background: #f3f4f6;
-      color: #4b5563;
-    }
-    .small-text {
-      font-size: 12px;
-      color: #6b7280;
-      margin-top: 6px;
-    }
-    .success-msg {
-      font-size: 12px;
-      color: #15803d;
-      margin-top: 8px;
-    }
-    .error-msg {
-      font-size: 12px;
-      color: #b91c1c;
+
+    .error-text {
+      font-size: 13px;
+      color: #c62828;
       margin-top: 8px;
     }
 
+    .muted {
+      font-size: 13px;
+      color: #777;
+    }
+
     @media (max-width: 768px) {
+      .app {
+        flex-direction: column;
+      }
       .sidebar {
-        display: none;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        border-right: none;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 10px;
       }
-      .main {
-        padding: 14px 12px;
+      .nav {
+        display: flex;
+        flex: 1;
+        overflow-x: auto;
       }
-      .home-grid, .profile-wrap {
-        grid-template-columns: minmax(0,1fr);
+      .nav-item {
+        margin-bottom: 0;
+        margin-right: 4px;
+      }
+      .sidebar-bottom {
+        border-top: none;
+        margin-top: 0;
+        padding-top: 0;
+        padding-left: 8px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <!-- Sidebar -->
+  <div class="app">
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-avatar">S</div>
-        <div>
-          <div class="brand-text-title">Solvoro</div>
-          <div class="brand-text-sub">Client Dashboard</div>
-        </div>
+        <div class="brand-logo">S</div>
+        <div class="brand-name">Solvoro</div>
       </div>
-      <nav class="nav">
-        <!-- data-page points to the page id -->
-        <button class="nav-button active" data-page="page-home">
-          <span class="icon">🏠</span> Home
-        </button>
-        <button class="nav-button" data-page="page-services">
-          <span class="icon">🧩</span> Services
-        </button>
-        <button class="nav-button" data-page="page-profile">
-          <span class="icon">👤</span> Profile
-        </button>
-      </nav>
-      <div class="sidebar-footer">
-        Admin panel is separate and hidden from client area.
+
+      <ul class="nav">
+        <li class="nav-item">
+          <button class="nav-link active" data-target="homeSection">Home</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-target="servicesSection">Services</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-target="ordersSection">Orders</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-target="demoSection">Demo</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-target="settingsSection">Settings</button>
+        </li>
+      </ul>
+
+      <div class="sidebar-bottom">
+        <button id="signOutBtn" class="signout-btn">Sign out</button>
+        <div>Dashboard area only. Admin pages are separate.</div>
       </div>
     </aside>
 
-    <!-- Main area -->
-    <div class="main">
-      <!-- Top bar -->
-      <header class="topbar">
-        <div>
-          <div class="topbar-title" id="pageTitle">Home</div>
-          <div class="topbar-subtitle">Your personal Solvoro space</div>
+    <!-- MAIN -->
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title" id="pageTitle">Home</div>
+        <div class="user-chip">
+          <div class="avatar" id="userAvatar">
+            <span id="avatarLetter">S</span>
+            <img id="avatarImage" alt="Profile" />
+          </div>
+          <div class="user-email" id="userEmail">Loading...</div>
         </div>
-        <div class="topbar-user">
-          <div class="user-avatar" id="userAvatar">?</div>
-          <div class="user-email" id="userEmail">...</div>
-          <button class="btn-ghost" id="signOutBtn">Sign out</button>
-        </div>
-      </header>
+      </div>
 
-      <!-- Content -->
       <div class="content">
-
-        <!-- HOME PAGE -->
-        <section class="page active" id="page-home">
+        <!-- HOME / PROFILE -->
+        <section id="homeSection" class="section active">
           <div class="card">
-            <div class="pill">Signed in • Solvoro client</div>
-            <div class="card-title">Welcome back 👋</div>
-            <div class="card-subtitle">
-              From here you’ll see your basic info, services and special children discount status.
+            <div class="card-title">Profile overview</div>
+            <div class="card-sub">
+              This is your main space. Save your details once and use them across orders.
             </div>
-            <p class="small-text">
-              You will place orders from the main Solvoro website or services page. This dashboard is only
-              for viewing and managing your details and discount request.
-            </p>
-          </div>
 
-          <div class="home-grid">
-            <div class="card">
-              <div class="card-title">Quick glance</div>
-              <p class="small-text">
-                • Profile details are saved in our secure database. <br>
-                • Children under 24 years can request a 40% discount (handled by admin). <br>
-                • Admin panel is separate and not visible from here.
-              </p>
-            </div>
-            <div class="card">
-              <div class="card-title">Next steps</div>
-              <p class="small-text">
-                1. Go to <b>Profile</b> and fill your name and (optionally) Aadhaar number. <br>
-                2. If you’re eligible as a child (under 24), submit a <b>40% off request</b>. <br>
-                3. Admin will review and approve or reject the request.
-              </p>
-            </div>
-          </div>
-        </section>
+            <div class="row">
+              <div class="grow">
+                <div class="field-row">
+                  <label>Email</label>
+                  <div class="muted" id="profileEmail">—</div>
+                </div>
 
-        <!-- SERVICES PAGE (placeholder for now) -->
-        <section class="page" id="page-services">
-          <div class="card">
-            <div class="card-title">Services overview</div>
-            <div class="card-subtitle">
-              This is just a placeholder. Your real services will come from the public Solvoro website or admin.
-            </div>
-            <p class="small-text">
-              Later from admin page, you will add services like:
-            </p>
-            <div>
-              <span class="tag">Website Design</span>
-              <span class="tag">Logo Design</span>
-              <span class="tag">Social Media Poster</span>
-              <span class="tag">Business Card</span>
-              <span class="tag">Promo Video</span>
-            </div>
-            <p class="small-text" style="margin-top:10px;">
-              Client will see details in a popup on the service page and then place order from there.
-              This dashboard will only show basic info and discount status.
-            </p>
-          </div>
-        </section>
+                <div class="field-row">
+                  <label>Aadhaar number (optional, used for children discount)</label>
+                  <input type="text" id="aadhaarInput" placeholder="Enter Aadhaar number (optional)" />
+                  <div class="muted">
+                    Only required if you want to request the 40% discount for eligible children.
+                  </div>
+                </div>
 
-        <!-- PROFILE PAGE (Aadhaar + 40% off request) -->
-        <section class="page" id="page-profile">
-          <div class="profile-wrap">
-            <div class="card">
-              <div class="card-title">Your profile</div>
-              <div class="card-subtitle">
-                Basic details stored for your orders and children discount.
+                <div style="display:flex; gap:8px; margin-top:10px;">
+                  <button id="saveProfileBtn" class="btn-solid">Save details</button>
+                  <div id="saveStatus" class="muted"></div>
+                </div>
+
+                <div style="margin-top:14px;">
+                  <button id="requestDiscountBtn" class="btn-ghost" style="display:none;">
+                    Request 40% discount
+                  </button>
+                  <div id="discountStatus" class="status-pill" style="display:none;"></div>
+                </div>
+
+                <div id="profileError" class="error-text" style="display:none;"></div>
               </div>
 
-              <div class="form-group">
-                <label class="form-label">Full name</label>
-                <input id="fullNameInput" class="form-input" type="text" placeholder="Your full name" />
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Aadhaar number (optional for children)</label>
-                <input id="aadhaarInput" class="form-input" type="text" placeholder="xxxx-xxxx-xxxx" />
-                <div class="helper">
-                  Only needed if you want to request the 40% children discount (under 24 years).
+              <div class="grow">
+                <div class="field-row">
+                  <label>Saved information</label>
+                  <div class="muted">
+                    • This dashboard keeps your basic details.<br />
+                    • You can place orders from services or other pages later.<br />
+                    • Discount approval will be handled by admin from their panel.
+                  </div>
                 </div>
               </div>
-
-              <button class="btn-primary" id="saveProfileBtn">Save details</button>
-              <div id="profileSaveMsg" class="success-msg" style="display:none;"></div>
-              <div id="profileErrorMsg" class="error-msg" style="display:none;"></div>
-            </div>
-
-            <div class="card">
-              <div class="card-title">40% Children Discount</div>
-              <div class="card-subtitle">
-                Request discount for children under 24. Final decision is taken by admin from a separate admin panel.
-              </div>
-
-              <p class="small-text">
-                • First, fill your Aadhaar number above and save. <br>
-                • After Aadhaar is saved, you can send one request for 40% off. <br>
-                • Admin will check your age / eligibility and update the status.
-              </p>
-
-              <button class="btn-outline" id="requestDiscountBtn" style="display:none;">
-                Request 40% off for children
-              </button>
-
-              <div class="status-label">Current status:</div>
-              <div id="discountStatusPill" class="status-pill status-none">
-                <span>•</span><span id="discountStatusText">No request yet</span>
-              </div>
-
-              <div class="small-text" id="discountInfoText">
-                No discount request submitted yet.
-              </div>
             </div>
           </div>
         </section>
 
+        <!-- SERVICES -->
+        <section id="servicesSection" class="section">
+          <div class="card">
+            <div class="card-title">Services</div>
+            <div class="card-sub">
+              Here you will see all services. Later we can connect this with a full service popup and order flow.
+            </div>
+            <div class="muted">
+              For now, this is a placeholder. After we design the service popups, we will connect them here.
+            </div>
+          </div>
+        </section>
+
+        <!-- ORDERS -->
+        <section id="ordersSection" class="section">
+          <div class="card">
+            <div class="card-title">Orders</div>
+            <div class="card-sub">
+              Your past and current orders will appear here.
+            </div>
+            <div class="muted">
+              We will connect this to Firestore later to show real orders.
+            </div>
+          </div>
+        </section>
+
+        <!-- DEMO -->
+        <section id="demoSection" class="section">
+          <div class="card">
+            <div class="card-title">Demo area</div>
+            <div class="card-sub">
+              Just a demo page to test layout and future features.
+            </div>
+            <div class="muted">
+              You can use this page to experiment with new ideas without affecting main sections.
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="settingsSection" class="section">
+          <div class="card">
+            <div class="card-title">Settings</div>
+            <div class="card-sub">
+              Basic account settings will come here.
+            </div>
+            <div class="muted">
+              Right now, everything important is already on Home. Later we can add more controls here.
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
+    </main>
   </div>
 
-  <!-- Firebase + Logic -->
+  <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import {
@@ -487,10 +472,12 @@
       getFirestore,
       doc,
       getDoc,
-      setDoc
+      setDoc,
+      updateDoc,
+      serverTimestamp
     } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-    // --- Your Firebase config (same as login page) ---
+    // --- Firebase config (same as your login page) ---
     const firebaseConfig = {
       apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
       authDomain: "solvoro-c9155.firebaseapp.com",
@@ -506,194 +493,221 @@
     const db = getFirestore(app);
 
     // --- DOM elements ---
-    const userAvatarEl = document.getElementById("userAvatar");
     const userEmailEl = document.getElementById("userEmail");
-    const signOutBtn = document.getElementById("signOutBtn");
+    const profileEmailEl = document.getElementById("profileEmail");
+    const avatarLetterEl = document.getElementById("avatarLetter");
+    const avatarImageEl = document.getElementById("avatarImage");
+    const userAvatarEl = document.getElementById("userAvatar");
 
-    const navButtons = document.querySelectorAll(".nav-button");
-    const pages = document.querySelectorAll(".page");
-    const pageTitleEl = document.getElementById("pageTitle");
-
-    // Profile elements
-    const fullNameInput = document.getElementById("fullNameInput");
     const aadhaarInput = document.getElementById("aadhaarInput");
     const saveProfileBtn = document.getElementById("saveProfileBtn");
-    const profileSaveMsg = document.getElementById("profileSaveMsg");
-    const profileErrorMsg = document.getElementById("profileErrorMsg");
-
-    // Discount elements
+    const saveStatus = document.getElementById("saveStatus");
     const requestDiscountBtn = document.getElementById("requestDiscountBtn");
-    const discountStatusPill = document.getElementById("discountStatusPill");
-    const discountStatusText = document.getElementById("discountStatusText");
-    const discountInfoText = document.getElementById("discountInfoText");
+    const discountStatus = document.getElementById("discountStatus");
+    const profileError = document.getElementById("profileError");
+
+    const signOutBtn = document.getElementById("signOutBtn");
+    const pageTitle = document.getElementById("pageTitle");
+
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".section");
 
     let currentUser = null;
-    let loadingProfile = false;
+    let currentUserDocRef = null;
+    let currentUserData = null;
 
-    // --- Helpers ---
-    function setAvatarFromUser(user) {
-      const email = user?.email || "";
-      const letter = email ? email.charAt(0).toUpperCase() : "?";
-      userAvatarEl.textContent = letter;
-      userEmailEl.textContent = email || "";
-    }
+    // --- Navigation handling (sidebar) ---
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        const target = link.getAttribute("data-target");
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
 
-    function setActivePage(pageId) {
-      pages.forEach(p => {
-        if (p.id === pageId) p.classList.add("active");
-        else p.classList.remove("active");
-      });
-      navButtons.forEach(btn => {
-        if (btn.dataset.page === pageId) btn.classList.add("active");
-        else btn.classList.remove("active");
-      });
-      if (pageId === "page-home") pageTitleEl.textContent = "Home";
-      if (pageId === "page-services") pageTitleEl.textContent = "Services";
-      if (pageId === "page-profile") pageTitleEl.textContent = "Profile";
-    }
+        sections.forEach(sec => {
+          if (sec.id === target) {
+            sec.classList.add("active");
+          } else {
+            sec.classList.remove("active");
+          }
+        });
 
-    function updateDiscountUI(status) {
-      // status: "none" | "pending" | "approved" | "rejected"
-      discountStatusPill.className = "status-pill";
-      if (status === "pending") {
-        discountStatusPill.classList.add("status-pending");
-        discountStatusText.textContent = "Pending — waiting for admin review";
-        discountInfoText.textContent = "Your 40% off request is sent. Admin will check eligibility and update.";
-      } else if (status === "approved") {
-        discountStatusPill.classList.add("status-approved");
-        discountStatusText.textContent = "Approved — 40% discount applicable";
-        discountInfoText.textContent = "Admin has approved your children discount. It will apply when placing orders.";
-      } else if (status === "rejected") {
-        discountStatusPill.classList.add("status-rejected");
-        discountStatusText.textContent = "Rejected — not eligible";
-        discountInfoText.textContent = "Admin has rejected the request. If you think this is wrong, contact support.";
-      } else {
-        discountStatusPill.classList.add("status-none");
-        discountStatusText.textContent = "No request yet";
-        discountInfoText.textContent = "No discount request submitted yet.";
-      }
-    }
-
-    function showRequestButtonIfAadhaarPresent() {
-      const value = aadhaarInput.value.trim();
-      if (value) {
-        requestDiscountBtn.style.display = "inline-flex";
-      } else {
-        requestDiscountBtn.style.display = "none";
-      }
-    }
-
-    // --- Load / Save profile ---
-    async function loadProfile(user) {
-      if (!user) return;
-      loadingProfile = true;
-      profileSaveMsg.style.display = "none";
-      profileErrorMsg.style.display = "none";
-      try {
-        const ref = doc(db, "users", user.uid);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-          const data = snap.data();
-          if (data.fullName) fullNameInput.value = data.fullName;
-          if (data.aadhaarNumber) aadhaarInput.value = data.aadhaarNumber;
-          const status = data.discountRequestStatus || "none";
-          updateDiscountUI(status);
-          showRequestButtonIfAadhaarPresent();
-        } else {
-          // no doc yet
-          updateDiscountUI("none");
-          showRequestButtonIfAadhaarPresent();
-        }
-      } catch (err) {
-        console.error("Error loading profile", err);
-        profileErrorMsg.textContent = "Failed to load profile.";
-        profileErrorMsg.style.display = "block";
-      } finally {
-        loadingProfile = false;
-      }
-    }
-
-    async function saveProfile() {
-      if (!currentUser) return;
-      profileSaveMsg.style.display = "none";
-      profileErrorMsg.style.display = "none";
-      const fullName = fullNameInput.value.trim();
-      const aadhaar = aadhaarInput.value.trim();
-
-      try {
-        const ref = doc(db, "users", currentUser.uid);
-        await setDoc(ref, {
-          fullName: fullName || null,
-          aadhaarNumber: aadhaar || null
-        }, { merge: true });
-
-        profileSaveMsg.textContent = "Profile saved successfully.";
-        profileSaveMsg.style.display = "block";
-        showRequestButtonIfAadhaarPresent();
-      } catch (err) {
-        console.error(err);
-        profileErrorMsg.textContent = "Failed to save profile. Please try again.";
-        profileErrorMsg.style.display = "block";
-      }
-    }
-
-    async function requestDiscount() {
-      if (!currentUser) return;
-      profileSaveMsg.style.display = "none";
-      profileErrorMsg.style.display = "none";
-
-      const aadhaar = aadhaarInput.value.trim();
-      if (!aadhaar) {
-        profileErrorMsg.textContent = "Please add Aadhaar number first, then save profile.";
-        profileErrorMsg.style.display = "block";
-        return;
-      }
-
-      try {
-        const ref = doc(db, "users", currentUser.uid);
-        await setDoc(ref, {
-          discountRequestStatus: "pending"
-        }, { merge: true });
-
-        updateDiscountUI("pending");
-        profileSaveMsg.textContent = "Discount request sent. Admin will review.";
-        profileSaveMsg.style.display = "block";
-      } catch (err) {
-        console.error(err);
-        profileErrorMsg.textContent = "Failed to send discount request.";
-        profileErrorMsg.style.display = "block";
-      }
-    }
-
-    // --- Event listeners ---
-    navButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const pageId = btn.dataset.page;
-        setActivePage(pageId);
+        // Set page title from button text
+        pageTitle.textContent = link.textContent.trim();
       });
     });
 
-    saveProfileBtn.addEventListener("click", saveProfile);
-    aadhaarInput.addEventListener("input", showRequestButtonIfAadhaarPresent);
-    requestDiscountBtn.addEventListener("click", requestDiscount);
-
-    signOutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-      // change to your actual login page filename if different
-      window.location.href = "index.html";
-    });
-
-    // --- Auth state ---
+    // --- Authentication check ---
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        // not logged in -> back to login
-        // change this to your login file (the one you pasted earlier)
-        window.location.href = "index.html";
+        // Not logged in: send back to login page
+        window.location.href = "index.html"; // your login page file
         return;
       }
+
       currentUser = user;
-      setAvatarFromUser(user);
-      await loadProfile(user);
+      currentUserDocRef = doc(db, "users", user.uid);
+
+      // Set header info
+      const email = user.email || "";
+      userEmailEl.textContent = email;
+      profileEmailEl.textContent = email || "—";
+
+      // Avatar first letter
+      const letter = email ? email.charAt(0).toUpperCase() : "S";
+      avatarLetterEl.textContent = letter;
+
+      // If you ever set photoURL for user, we can show it:
+      if (user.photoURL) {
+        avatarImageEl.src = user.photoURL;
+        avatarImageEl.style.display = "block";
+        avatarLetterEl.style.display = "none";
+      } else {
+        avatarImageEl.style.display = "none";
+        avatarLetterEl.style.display = "block";
+      }
+
+      // Load profile data from Firestore
+      await loadUserProfile();
+    });
+
+    async function loadUserProfile() {
+      profileError.style.display = "none";
+      saveStatus.textContent = "";
+      discountStatus.style.display = "none";
+      requestDiscountBtn.style.display = "none";
+
+      if (!currentUserDocRef) return;
+
+      try {
+        const snap = await getDoc(currentUserDocRef);
+        if (snap.exists()) {
+          currentUserData = snap.data();
+          aadhaarInput.value = currentUserData.aadhaar || "";
+
+          const requested = !!currentUserData.discountRequested;
+          const approved = !!currentUserData.discountApproved;
+
+          // If Aadhaar is filled, show request button
+          if (aadhaarInput.value.trim()) {
+            requestDiscountBtn.style.display = "inline-flex";
+          } else {
+            requestDiscountBtn.style.display = "none";
+          }
+
+          // Discount status pill
+          let text = "";
+          if (approved) {
+            text = "Discount approved by admin";
+          } else if (requested) {
+            text = "Discount requested. Waiting for admin review";
+          }
+
+          if (text) {
+            discountStatus.textContent = text;
+            discountStatus.style.display = "inline-flex";
+          } else {
+            discountStatus.style.display = "none";
+          }
+        } else {
+          // First time: create base profile
+          currentUserData = {
+            email: currentUser.email || "",
+            aadhaar: "",
+            discountRequested: false,
+            discountApproved: false,
+            createdAt: serverTimestamp()
+          };
+          await setDoc(currentUserDocRef, currentUserData);
+          aadhaarInput.value = "";
+        }
+      } catch (err) {
+        console.error(err);
+        profileError.textContent = "Failed to load your details. Please refresh.";
+        profileError.style.display = "block";
+      }
+    }
+
+    // --- Save profile (Aadhaar + basic fields) ---
+    saveProfileBtn.addEventListener("click", async () => {
+      if (!currentUserDocRef) return;
+
+      const aadhaarVal = aadhaarInput.value.trim();
+
+      profileError.style.display = "none";
+      saveStatus.textContent = "";
+      saveProfileBtn.disabled = true;
+
+      try {
+        // We only allow updating aadhaar and email here.
+        const dataToUpdate = {
+          email: currentUser.email || "",
+          aadhaar: aadhaarVal
+        };
+
+        await setDoc(currentUserDocRef, {
+          ...(currentUserData || {}),
+          ...dataToUpdate
+        }, { merge: true });
+
+        currentUserData = { ...(currentUserData || {}), ...dataToUpdate };
+
+        saveStatus.textContent = "Saved.";
+        // Show / hide discount button depending on Aadhaar
+        if (aadhaarVal) {
+          requestDiscountBtn.style.display = "inline-flex";
+        } else {
+          requestDiscountBtn.style.display = "none";
+          discountStatus.style.display = "none";
+        }
+      } catch (err) {
+        console.error(err);
+        profileError.textContent = "Could not save details. Try again.";
+        profileError.style.display = "block";
+      } finally {
+        saveProfileBtn.disabled = false;
+      }
+    });
+
+    // --- Request 40% discount (children) ---
+    requestDiscountBtn.addEventListener("click", async () => {
+      if (!currentUserDocRef || !currentUserData) return;
+
+      const aadhaarVal = aadhaarInput.value.trim();
+      if (!aadhaarVal) {
+        profileError.textContent = "Please enter Aadhaar before requesting discount.";
+        profileError.style.display = "block";
+        return;
+      }
+
+      profileError.style.display = "none";
+      requestDiscountBtn.disabled = true;
+
+      try {
+        await updateDoc(currentUserDocRef, {
+          discountRequested: true
+          // discountApproved will be changed only from admin panel
+        });
+
+        currentUserData.discountRequested = true;
+        discountStatus.textContent = "Discount requested. Waiting for admin review";
+        discountStatus.style.display = "inline-flex";
+      } catch (err) {
+        console.error(err);
+        profileError.textContent = "Could not send request. Try again later.";
+        profileError.style.display = "block";
+      } finally {
+        requestDiscountBtn.disabled = false;
+      }
+    });
+
+    // --- Sign out ---
+    signOutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error(err);
+      }
     });
   </script>
 </body>
