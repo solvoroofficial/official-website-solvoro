@@ -3,9 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Profile — Solvoro</title>
-
-  <link rel="icon" type="image/png" href="favicon.png" />
+  <title>Solvoro — Profile</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
@@ -13,209 +12,542 @@
       --bg: #f7f7f7;
       --card-bg: #ffffff;
       --border: #e5e5e5;
-      --text-main: #111;
-      --text-muted: #666;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --accent: #111111;
+      --shadow-soft: 0 12px 40px rgba(0,0,0,0.05);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
-      font-family: Inter, sans-serif;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    /* HEADER */
-    header {
+    /* Header */
+    .top-bar {
       position: sticky;
       top: 0;
-      padding: 12px 18px;
-      background: white;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
+      z-index: 10;
+      background: #ffffff;
       border-bottom: 1px solid var(--border);
-    }
-    header img {
-      width: 32px;
-      margin-right: auto;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .logout-btn {
-      padding: 6px 14px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: #fff;
-      cursor: pointer;
-      font-size: 13px;
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-left img {
+      height: 28px;
+      width: auto;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .top-link {
+      font-size: 14px;
       color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
     }
 
-    /* PAGE */
-    .container {
-      max-width: 860px;
-      margin: 30px auto;
-      padding: 0 18px;
+    .top-link:hover {
+      border-color: var(--border);
+      background: #f2f2f2;
+      color: var(--text-main);
+    }
+
+    .avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #111111;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Main container */
+    .page-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 20px 12px 32px;
+    }
+
+    .profile-shell {
+      width: 100%;
+      max-width: 960px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 18px;
+      animation: floatIn 0.35s ease-out;
+    }
+
+    @media (max-width: 768px) {
+      .profile-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
     .card {
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 26px;
       border-radius: 16px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.05);
-      animation: fadeUp 0.4s ease forwards;
+      box-shadow: var(--shadow-soft);
+      padding: 20px 18px;
+      border: 1px solid rgba(0,0,0,0.03);
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
     }
 
-    .avatar {
-      width: 80px;
-      height: 80px;
-      background: #111;
-      color: white;
-      border-radius: 20px;
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Profile header block */
+    .profile-main {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 8px;
+    }
+
+    .profile-avatar-large {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #111111;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 28px;
-      margin-bottom: 16px;
+      font-weight: 600;
+      flex-shrink: 0;
     }
 
-    h2 {
-      margin: 0;
+    .profile-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .profile-name {
       font-size: 20px;
+      font-weight: 600;
     }
 
-    .username {
-      color: var(--text-muted);
+    .profile-username {
       font-size: 14px;
-      margin-top: 4px;
+      color: var(--text-muted);
     }
 
-    .field-block {
-      margin-top: 22px;
-    }
-    label {
+    .profile-meta-line {
+      font-size: 13px;
       color: var(--text-muted);
+    }
+
+    .profile-actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: background 0.16s ease, border-color 0.16s ease;
+    }
+
+    .btn-outline:hover {
+      background: #f3f3f3;
+      border-color: #d4d4d4;
+    }
+
+    .btn-solid {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid #111111;
+      background: #111111;
+      color: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.16s ease, transform 0.06s ease;
+    }
+
+    .btn-solid:hover {
+      background: #000000;
+      transform: translateY(-1px);
+    }
+
+    /* Detail list */
+    .detail-list {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
       font-size: 13px;
     }
-    .value {
-      font-size: 15px;
-      margin-top: 4px;
+
+    @media (max-width: 640px) {
+      .detail-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
-    .edit-btn {
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-      font-size: 15px;
-      border-radius: 10px;
-      border: none;
-      background: #111;
-      color: white;
-      cursor: pointer;
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 11px;
+    }
+
+    .detail-value {
+      font-size: 13px;
+    }
+
+    .muted-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Right side card */
+    .info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .info-row-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .error-text {
+      color: #c62828;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: #a3a3a3;
+      padding: 10px 0 18px;
     }
   </style>
 </head>
-
 <body>
-
-<header>
-  <img src="logo.png" />
-  <button class="logout-btn" id="logoutBtn">Logout</button>
-</header>
-
-<div class="container">
-  <div class="card">
-    <div class="avatar" id="avatarBox">S</div>
-    <h2 id="nameBox">Loading...</h2>
-    <div class="username" id="userIdBox"></div>
-
-    <div class="field-block">
-      <label>Phone Number</label>
-      <div class="value" id="phoneBox"></div>
+  <!-- Header -->
+  <header class="top-bar">
+    <div class="top-left">
+      <img src="logo.png" alt="Solvoro Logo">
+      <span class="brand-name">SOLVORO</span>
     </div>
-
-    <div class="field-block">
-      <label>Aadhaar Number</label>
-      <div class="value" id="aadhaarBox"></div>
+    <div class="top-right">
+      <a href="dashboard-home.html" class="top-link">Home</a>
+      <a href="services.html" class="top-link">Services</a>
+      <a href="profile.html" class="top-link" style="border-color: #111111;">Profile</a>
+      <div id="headerAvatar" class="avatar-circle">S</div>
     </div>
+  </header>
 
-    <div class="field-block">
-      <label>Job / Study</label>
-      <div class="value" id="jobBox"></div>
+  <!-- Main -->
+  <div class="page-wrap">
+    <div class="profile-shell">
+      <!-- Left card: main profile -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Profile</div>
+            <div class="card-sub">Your public details inside Solvoro</div>
+          </div>
+        </div>
+
+        <div class="profile-main">
+          <div id="profileAvatar" class="profile-avatar-large">S</div>
+          <div class="profile-text">
+            <div id="fullName" class="profile-name">Loading...</div>
+            <div id="username" class="profile-username"></div>
+            <div id="jobStudy" class="profile-meta-line"></div>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button onclick="window.location.href='profile-edit.html'" class="btn-solid">
+            Edit profile
+          </button>
+          <button id="signOutBtn" class="btn-outline">
+            Sign out
+          </button>
+        </div>
+
+        <div id="detailList" class="detail-list"></div>
+        <div id="mutedNote" class="muted-note"></div>
+        <div id="errorMsg" class="error-text" style="display:none;"></div>
+        <div id="loadingMsg" class="loading">Loading profile...</div>
+      </section>
+
+      <!-- Right card: summary / info -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Account overview</div>
+            <div class="card-sub">A quick snapshot of your details</div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div>
+            <div class="info-row-title">Status</div>
+            <div id="statusText">Profile setup in progress.</div>
+          </div>
+
+          <div>
+            <div class="info-row-title">Tags</div>
+            <div id="tagsWrap">
+              <!-- Pills will be added here -->
+            </div>
+          </div>
+
+          <div>
+            <div class="info-row-title">Contact</div>
+            <div id="contactText">We will use your email and mobile for updates.</div>
+          </div>
+        </div>
+      </section>
     </div>
-
-    <div class="field-block">
-      <label>Address</label>
-      <div class="value" id="addressBox"></div>
-    </div>
-
-    <button class="edit-btn" onclick="window.location.href='profile-edit.html'">
-      Edit Profile
-    </button>
   </div>
-</div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-  import {
-    getFirestore,
-    doc,
-    getDoc
-  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  <footer>
+    © <span id="year"></span> Solvoro. All rights reserved.
+  </footer>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
-    authDomain: "solvoro-c9155.firebaseapp.com",
-    projectId: "solvoro-c9155",
-    storageBucket: "solvoro-c9155.firebasestorage.app",
-    messagingSenderId: "536457030363",
-    appId: "1:536457030363:web:e3315527c15fc037ba3afe"
-  };
+  <!-- Firebase & profile logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
+      authDomain: "solvoro-c9155.firebaseapp.com",
+      projectId: "solvoro-c9155",
+      storageBucket: "solvoro-c9155.firebasestorage.app",
+      messagingSenderId: "536457030363",
+      appId: "1:536457030363:web:e3315527c15fc037ba3afe",
+      measurementId: "G-Z47VFQ3C7Q"
+    };
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) window.location.href = "index.html";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    const ref = doc(db, "profiles", user.uid);
-    const snap = await getDoc(ref);
+    const yearSpan = document.getElementById("year");
+    yearSpan.textContent = new Date().getFullYear().toString();
 
-    if (snap.exists()) {
-      const data = snap.data();
+    const headerAvatar = document.getElementById("headerAvatar");
+    const profileAvatar = document.getElementById("profileAvatar");
+    const fullNameEl = document.getElementById("fullName");
+    const usernameEl = document.getElementById("username");
+    const jobStudyEl = document.getElementById("jobStudy");
+    const detailListEl = document.getElementById("detailList");
+    const mutedNoteEl = document.getElementById("mutedNote");
+    const errorMsgEl = document.getElementById("errorMsg");
+    const loadingMsgEl = document.getElementById("loadingMsg");
+    const statusTextEl = document.getElementById("statusText");
+    const tagsWrapEl = document.getElementById("tagsWrap");
+    const signOutBtn = document.getElementById("signOutBtn");
 
-      document.getElementById("avatarBox").textContent =
-        (data.fullName || user.email).charAt(0).toUpperCase();
-
-      document.getElementById("nameBox").textContent = data.fullName;
-      document.getElementById("userIdBox").textContent =
-        data.userId ? "@" + data.userId : "";
-
-      document.getElementById("phoneBox").textContent = data.phone || "Not set";
-      document.getElementById("aadhaarBox").textContent = data.aadhaar || "Not set";
-      document.getElementById("jobBox").textContent = data.job || "Not set";
-
-      const address =
-        [data.address, data.city, data.state, data.country]
-          .filter(Boolean)
-          .join(", ");
-
-      document.getElementById("addressBox").textContent = address || "Not set";
+    function setAvatarFromEmail(email) {
+      if (!email) return;
+      const letter = email.trim()[0]?.toUpperCase() || "S";
+      headerAvatar.textContent = letter;
+      profileAvatar.textContent = letter;
     }
-  });
 
-  logoutBtn.addEventListener("click", () => signOut(auth));
-</script>
+    function renderDetail(label, value) {
+      const div = document.createElement("div");
+      div.className = "detail-item";
+      const l = document.createElement("div");
+      l.className = "detail-label";
+      l.textContent = label;
+      const v = document.createElement("div");
+      v.className = "detail-value";
+      v.textContent = value || "-";
+      div.appendChild(l);
+      div.appendChild(v);
+      detailListEl.appendChild(div);
+    }
 
+    function renderTag(text) {
+      const span = document.createElement("span");
+      span.className = "pill";
+      span.textContent = text;
+      tagsWrapEl.appendChild(span);
+    }
+
+    signOutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      setAvatarFromEmail(user.email || "");
+
+      try {
+        const ref = doc(db, "profiles", user.uid);
+        const snap = await getDoc(ref);
+
+        loadingMsgEl.style.display = "none";
+
+        if (!snap.exists()) {
+          fullNameEl.textContent = user.email || "New user";
+          usernameEl.textContent = "";
+          jobStudyEl.textContent = "";
+          mutedNoteEl.textContent = "Your profile is not set up yet. Tap “Edit profile” to complete your details.";
+          statusTextEl.textContent = "Profile not completed.";
+          renderTag("New");
+          renderTag("Incomplete profile");
+          return;
+        }
+
+        const data = snap.data();
+
+        fullNameEl.textContent = data.fullName || "No name";
+        usernameEl.textContent = data.userId ? "@" + data.userId : "";
+        const job = data.job || "";
+        const study = data.study || "";
+        jobStudyEl.textContent = [job, study].filter(Boolean).join("  •  ");
+
+        detailListEl.innerHTML = "";
+        renderDetail("Email", data.email || user.email || "-");
+        renderDetail("Phone", data.phone || "-");
+        renderDetail("Aadhaar", data.aadhaar || "-");
+        renderDetail("Address", data.address || "-");
+        renderDetail("City", data.city || "-");
+        renderDetail("State", data.state || "-");
+        renderDetail("Pincode", data.pincode || "-");
+        renderDetail("Job", data.job || "-");
+        renderDetail("Study", data.study || "-");
+        renderDetail("More info", data.moreInfo || "-");
+
+        mutedNoteEl.textContent = "You are in control of your profile. Only you and Solvoro team can see sensitive details like Aadhaar.";
+
+        tagsWrapEl.innerHTML = "";
+        if (data.job) renderTag(data.job);
+        if (data.study) renderTag(data.study);
+        renderTag("Profile active");
+        if (data.aadhaar) renderTag("Aadhaar added");
+
+        statusTextEl.textContent = "Profile saved. You can edit your details anytime.";
+
+      } catch (err) {
+        loadingMsgEl.style.display = "none";
+        errorMsgEl.style.display = "block";
+        errorMsgEl.textContent = "Could not load profile. Please try again.";
+      }
+    });
+  </script>
 </body>
 </html>
