@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solvoro — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f7;
+      color: #111827;
+    }
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #ffffff;
+      border-right: 1px solid #e5e7eb;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #e0f2fe, #fce7f3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #1d4ed8;
+      font-size: 18px;
+    }
+    .brand-text-main {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .brand-text-sub {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      margin-top: 4px;
+    }
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px 0;
+    }
+    .nav-item {
+      margin-bottom: 2px;
+    }
+    .nav-link {
+      width: 100%;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 14px;
+      border: none;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4b5563;
+    }
+    .nav-link span.icon {
+      font-size: 16px;
+    }
+    .nav-link.active {
+      background: #0f766e;
+      color: #ffffff;
+    }
+    .nav-link:not(.active):hover {
+      background: #f3f4f6;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top bar */
+    .topbar {
+      height: 64px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e5e7eb;
+      background: #ffffffaa;
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .top-title {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .top-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-email {
+      font-size: 13px;
+      color: #4b5563;
+      max-width: 180px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .avatar-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #dbeafe, #f9a8d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #1f2933;
+      font-size: 16px;
+    }
+    .signout-btn {
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .signout-btn:hover {
+      background: #f3f4f6;
+    }
+
+    /* Content */
+    .content {
+      padding: 20px;
+      flex: 1;
+      min-width: 0;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+
+    .cards-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      border: 1px solid #e5e7eb;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .card-sub {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .field-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .field {
+      flex: 1 1 170px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+    .input,
+    .select {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      background: #f9fafb;
+    }
+    .input:focus,
+    .select:focus {
+      outline: none;
+      border-color: #0f766e;
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.1);
+    }
+
+    .btn-primary {
+      border: none;
+      background: #0f766e;
+      color: white;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: #115e59;
+    }
+
+    .btn-outline {
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #374151;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background: #f3f4f6;
+    }
+
+    .status {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #059669;
+      display: none;
+    }
+    .status.error {
+      color: #b91c1c;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #ecfdf3;
+      color: #166534;
+    }
+    .badge.red {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .admin-note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      .top-title {
+        font-size: 15px;
+      }
+      .content {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">S</div>
+      <div>
+        <div class="brand-text-main">Solvoro</div>
+        <div class="brand-text-sub">User & Admin panel</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="nav-section-title">General</div>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <button class="nav-link active" data-section="overview">
+            <span class="icon">🏠</span>
+            <span>Overview</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-section="profile">
+            <span class="icon">👤</span>
+            <span>My details</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="nav-section-title">Admin</div>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <!-- This is only shown if user is admin -->
+          <button class="nav-link" data-section="admin" id="adminNavLink" style="display:none;">
+            <span class="icon">🛠</span>
+            <span>Admin panel</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      © <span id="yearSpan"></span> Solvoro
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div>
+        <div class="top-title" id="topTitle">Dashboard</div>
+        <div class="top-subtitle" id="topSubtitle">Welcome to your Solvoro space</div>
+      </div>
+      <div class="top-right">
+        <div class="user-email" id="userEmailLabel"></div>
+        <div class="avatar-circle" id="avatarInitial">S</div>
+        <button class="signout-btn" id="signoutBtn">Sign out</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+      <!-- Overview -->
+      <section class="section active" id="section-overview">
+        <div class="cards-row">
+          <div class="card">
+            <div class="card-title">Welcome</div>
+            <div class="card-sub">
+              This is your main dashboard. Your profile info will be saved here and used when you place any order from other pages.
+            </div>
+            <div style="font-size:13px; color:#4b5563;">
+              • Make sure your name, Aadhaar number and date of birth are correct.<br>
+              • Children under 24 years can get <strong>40% discount</strong> (handled manually from admin panel).
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Profile completion</div>
+            <div class="card-sub">Status</div>
+            <div id="profileCompletionText" style="font-size:13px; color:#4b5563;">
+              We will update this once your details are saved.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- My details -->
+      <section class="section" id="section-profile">
+        <div class="card">
+          <div class="card-title">My details</div>
+          <div class="card-sub">These details will be used for invoices, orders and eligibility check.</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="fullNameInput">Full name</label>
+              <input id="fullNameInput" class="input" type="text" placeholder="Your full name" />
+            </div>
+            <div class="field">
+              <label for="dobInput">Date of birth</label>
+              <input id="dobInput" class="input" type="date" />
+            </div>
+          </div>
+
+          <div class="field-row" style="margin-top:12px;">
+            <div class="field">
+              <label for="aadhaarInput">Aadhaar number</label>
+              <input id="aadhaarInput" class="input" type="text" placeholder="12-digit Aadhaar" maxlength="12" />
+            </div>
+            <div class="field">
+              <label for="phoneInput">Phone (optional)</label>
+              <input id="phoneInput" class="input" type="text" placeholder="Phone number" />
+            </div>
+          </div>
+
+          <div style="margin-top:14px; font-size:11px; color:#9ca3af;">
+            Make sure you only use this data for genuine purposes and keep it secure.
+          </div>
+
+          <div style="margin-top:16px; display:flex; gap:8px; align-items:center;">
+            <button class="btn-primary" id="saveProfileBtn">Save details</button>
+            <span class="status" id="profileStatus"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Admin panel -->
+      <section class="section" id="section-admin">
+        <div class="card">
+          <div class="card-title">Admin panel — Child discount control</div>
+          <div class="card-sub">
+            Search a user by email, see their saved data, and decide if they get 40% discount
+            (children under 24 years).
+          </div>
+
+          <div class="field-row" style="margin-bottom:12px;">
+            <div class="field">
+              <label for="adminSearchEmail">User email</label>
+              <input id="adminSearchEmail" class="input" type="email" placeholder="user@example.com" />
+            </div>
+            <div class="field" style="flex:0 0 auto; align-self:flex-end;">
+              <button class="btn-outline" id="adminSearchBtn">Load user</button>
+            </div>
+          </div>
+
+          <div class="status error" id="adminSearchStatus" style="display:none;"></div>
+
+          <div id="adminUserBox" style="display:none; margin-top:12px;">
+            <div style="font-size:13px; margin-bottom:8px;">
+              <strong>User:</strong> <span id="adminUserName">-</span><br>
+              <strong>DOB:</strong> <span id="adminUserDOB">-</span><br>
+              <strong>Aadhaar:</strong> <span id="adminUserAadhaar">-</span>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label style="display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" id="childDiscountCheckbox" />
+                <span style="font-size:13px;">Allow 40% child discount for this user</span>
+              </label>
+              <div class="admin-note">
+                This will set a <code>childDiscount: true/false</code> flag in the user's document.
+                You can check this in your order flow later.
+              </div>
+            </div>
+
+            <div style="margin-top:14px; display:flex; gap:8px; align-items:center;">
+              <button class="btn-primary" id="saveDiscountBtn">Save discount flag</button>
+              <span class="status" id="adminSaveStatus"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- Firebase + Logic -->
+<script type="module">
+  const LOGIN_PAGE = "index.html"; // TODO: change to your actual login page filename
+
+  document.getElementById("yearSpan").textContent = new Date().getFullYear();
+
+  /* ---------- Firebase setup ---------- */
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    serverTimestamp,
+    collection,
+    query,
+    where,
+    getDocs
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
+    authDomain: "solvoro-c9155.firebaseapp.com",
+    projectId: "solvoro-c9155",
+    storageBucket: "solvoro-c9155.firebasestorage.app",
+    messagingSenderId: "536457030363",
+    appId: "1:536457030363:web:e3315527c15fc037ba3afe",
+    measurementId: "G-Z47VFQ3C7Q"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Put real admin emails here
+  const ADMIN_EMAILS = [
+    "solvoro.admin1@example.com",
+    "solvoro.admin2@example.com"
+  ];
+
+  /* ---------- DOM elements ---------- */
+  const avatarInitial = document.getElementById("avatarInitial");
+  const userEmailLabel = document.getElementById("userEmailLabel");
+  const signoutBtn = document.getElementById("signoutBtn");
+
+  const profileCompletionText = document.getElementById("profileCompletionText");
+
+  const fullNameInput = document.getElementById("fullNameInput");
+  const dobInput = document.getElementById("dobInput");
+  const aadhaarInput = document.getElementById("aadhaarInput");
+  const phoneInput = document.getElementById("phoneInput");
+  const profileStatus = document.getElementById("profileStatus");
+  const saveProfileBtn = document.getElementById("saveProfileBtn");
+
+  const adminNavLink = document.getElementById("adminNavLink");
+  const adminSearchEmail = document.getElementById("adminSearchEmail");
+  const adminSearchBtn = document.getElementById("adminSearchBtn");
+  const adminSearchStatus = document.getElementById("adminSearchStatus");
+  const adminUserBox = document.getElementById("adminUserBox");
+  const adminUserName = document.getElementById("adminUserName");
+  const adminUserDOB = document.getElementById("adminUserDOB");
+  const adminUserAadhaar = document.getElementById("adminUserAadhaar");
+  const childDiscountCheckbox = document.getElementById("childDiscountCheckbox");
+  const saveDiscountBtn = document.getElementById("saveDiscountBtn");
+  const adminSaveStatus = document.getElementById("adminSaveStatus");
+
+  const navLinks = document.querySelectorAll(".nav-link");
+  const sections = {
+    overview: document.getElementById("section-overview"),
+    profile: document.getElementById("section-profile"),
+    admin: document.getElementById("section-admin")
+  };
+  const topTitle = document.getElementById("topTitle");
+  const topSubtitle = document.getElementById("topSubtitle");
+
+  let currentUser = null;
+  let currentAdminDocRef = null;
+
+  /* ---------- Helpers ---------- */
+
+  function setAvatarInitial(user, profileData) {
+    let initial = "S";
+    if (profileData && profileData.fullName && profileData.fullName.trim() !== "") {
+      initial = profileData.fullName.trim().charAt(0).toUpperCase();
+    } else if (user.displayName && user.displayName.trim() !== "") {
+      initial = user.displayName.trim().charAt(0).toUpperCase();
+    } else if (user.email) {
+      initial = user.email.charAt(0).toUpperCase();
+    }
+    avatarInitial.textContent = initial;
+  }
+
+  function updateProfileCompletion(profileData) {
+    if (!profileData) {
+      profileCompletionText.textContent = "No details saved yet. Please fill your profile.";
+      return;
+    }
+    const filled = [
+      profileData.fullName ? 1 : 0,
+      profileData.dob ? 1 : 0,
+      profileData.aadhaarNumber ? 1 : 0
+    ].reduce((a, b) => a + b, 0);
+    const total = 3;
+    const percent = Math.round((filled / total) * 100);
+    profileCompletionText.textContent = `Profile completeness: ${percent}% (${filled}/${total} main fields)`;
+  }
+
+  function showSection(name) {
+    Object.keys(sections).forEach(key => {
+      if (sections[key]) {
+        sections[key].classList.toggle("active", key === name);
+      }
+    });
+    navLinks.forEach(link => {
+      const s = link.getAttribute("data-section");
+      if (!s) return;
+      link.classList.toggle("active", s === name);
+    });
+    if (name === "overview") {
+      topTitle.textContent = "Dashboard";
+      topSubtitle.textContent = "Welcome to your Solvoro space";
+    } else if (name === "profile") {
+      topTitle.textContent = "My details";
+      topSubtitle.textContent = "These details are used for your services and discounts";
+    } else if (name === "admin") {
+      topTitle.textContent = "Admin panel";
+      topSubtitle.textContent = "Only visible to Solvoro admins";
+    }
+  }
+
+  function clearStatus(el) {
+    el.style.display = "none";
+    el.classList.remove("error");
+    el.textContent = "";
+  }
+
+  function showStatus(el, msg, isError = false) {
+    el.style.display = "inline";
+    el.textContent = msg;
+    if (isError) el.classList.add("error");
+    else el.classList.remove("error");
+  }
+
+  function looksLikeAadhaar(str) {
+    const digits = (str || "").replace(/\D/g, "");
+    return digits.length === 12;
+  }
+
+  /* ---------- Auth state ---------- */
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = LOGIN_PAGE;
+      return;
+    }
+    currentUser = user;
+    userEmailLabel.textContent = user.email || "";
+
+    const isAdmin = ADMIN_EMAILS.includes(user.email);
+    if (isAdmin) {
+      adminNavLink.style.display = "block";
+    }
+
+    // Load existing profile
+    const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
+    let profileData = null;
+    if (snap.exists()) {
+      profileData = snap.data();
+      if (profileData.fullName) fullNameInput.value = profileData.fullName;
+      if (profileData.dob) dobInput.value = profileData.dob;
+      if (profileData.aadhaarNumber) aadhaarInput.value = profileData.aadhaarNumber;
+      if (profileData.phone) phoneInput.value = profileData.phone;
+    }
+
+    setAvatarInitial(user, profileData);
+    updateProfileCompletion(profileData);
+  });
+
+  /* ---------- Sign out ---------- */
+  signoutBtn.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = LOGIN_PAGE;
+  });
+
+  /* ---------- Sidebar navigation ---------- */
+  navLinks.forEach(link => {
+    const sectionName = link.getAttribute("data-section");
+    if (!sectionName) return;
+    link.addEventListener("click", () => {
+      if (sectionName === "admin" && !ADMIN_EMAILS.includes(currentUser?.email)) {
+        return; // Non-admin should not switch to admin panel even if somehow visible
+      }
+      showSection(sectionName);
+    });
+  });
+
+  /* ---------- Save profile ---------- */
+  saveProfileBtn.addEventListener("click", async () => {
+    if (!currentUser) return;
+
+    clearStatus(profileStatus);
+
+    const fullName = fullNameInput.value.trim();
+    const dob = dobInput.value;
+    const aadhaar = aadhaarInput.value.trim();
+    const phone = phoneInput.value.trim();
+
+    if (!fullName || !dob || !aadhaar) {
+      showStatus(profileStatus, "Please fill name, DOB and Aadhaar.", true);
+      return;
+    }
+
+    if (!looksLikeAadhaar(aadhaar)) {
+      showStatus(profileStatus, "Aadhaar should be 12 digits (only numbers).", true);
+      return;
+    }
+
+    try {
+      const ref = doc(db, "users", currentUser.uid);
+      await setDoc(ref, {
+        uid: currentUser.uid,
+        email: currentUser.email,
+        fullName,
+        dob,
+        aadhaarNumber: aadhaar,
+        phone: phone || null,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      showStatus(profileStatus, "Details saved.");
+      setAvatarInitial(currentUser, { fullName });
+      updateProfileCompletion({ fullName, dob, aadhaarNumber: aadhaar });
+    } catch (err) {
+      console.error(err);
+      showStatus(profileStatus, "Failed to save details.", true);
+    }
+  });
+
+  /* ---------- Admin: search + discount flag ---------- */
+  adminSearchBtn.addEventListener("click", async () => {
+    if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email)) return;
+
+    clearStatus(adminSearchStatus);
+    adminUserBox.style.display = "none";
+    currentAdminDocRef = null;
+
+    const email = adminSearchEmail.value.trim();
+    if (!email) {
+      showStatus(adminSearchStatus, "Enter an email to search.", true);
+      return;
+    }
+
+    try {
+      adminSearchStatus.style.display = "inline";
+      adminSearchStatus.textContent = "Loading user...";
+      adminSearchStatus.classList.remove("error");
+
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const snap = await getDocs(q);
+
+      if (snap.empty) {
+        showStatus(adminSearchStatus, "No user profile found for this email.", true);
+        return;
+      }
+
+      const docSnap = snap.docs[0];
+      const data = docSnap.data();
+      currentAdminDocRef = doc(db, "users", docSnap.id);
+
+      adminUserName.textContent = data.fullName || "(no name)";
+      adminUserDOB.textContent = data.dob || "(no DOB)";
+      adminUserAadhaar.textContent = data.aadhaarNumber || "(no Aadhaar)";
+      childDiscountCheckbox.checked = !!data.childDiscount;
+
+      adminUserBox.style.display = "block";
+      showStatus(adminSearchStatus, "User loaded.", false);
+    } catch (err) {
+      console.error(err);
+      showStatus(adminSearchStatus, "Failed to load user.", true);
+    }
+  });
+
+  saveDiscountBtn.addEventListener("click", async () => {
+    if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email) || !currentAdminDocRef) return;
+
+    clearStatus(adminSaveStatus);
+    const value = !!childDiscountCheckbox.checked;
+
+    try {
+      await updateDoc(currentAdminDocRef, {
+        childDiscount: value,
+        adminUpdatedAt: serverTimestamp()
+      });
+      showStatus(adminSaveStatus, "Discount flag saved.");
+    } catch (err) {
+      console.error(err);
+      showStatus(adminSaveStatus, "Failed to save discount flag.", true);
+    }
+  });
+
+</script>
+</body>
+</html>
