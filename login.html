@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Solvoro — Login</title>
+  <style>
+    /* Minimal Inworld-like aesthetics: soft off-white, subtle gradient, roomy layout */
+    :root{
+      --bg:#fbf8f6;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#0f766e; /* green-ish */
+      --glass: rgba(255,255,255,0.7);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg, var(--bg), #fff);
+      color:#0f172a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+    .wrap{
+      width:100%;
+      max-width:980px;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:32px;
+      align-items:center;
+    }
+
+    /* Left column - minimal nav/brand */
+    .brand{
+      padding:28px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,250,250,0.9));
+      box-shadow: 0 6px 18px rgba(13,18,26,0.06);
+      height:320px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      align-items:flex-start;
+      justify-content:center;
+    }
+    .logo{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      font-weight:600;
+      font-size:20px;
+    }
+    .logo .dot{
+      width:36px;height:36px;border-radius:50%;
+      background: linear-gradient(135deg,#e6f6f3,#d4efe9);
+      display:inline-block;
+      box-shadow: 0 2px 6px rgba(15,118,110,0.12);
+    }
+    .teaser{
+      color:var(--muted);
+      line-height:1.45;
+      font-size:14px;
+      max-width:240px;
+    }
+
+    /* Card */
+    .card{
+      padding:28px;
+      border-radius:14px;
+      background:var(--card);
+      box-shadow: 0 10px 30px rgba(13,18,26,0.06);
+    }
+    h1{margin:0 0 8px 0;font-size:22px;}
+    p.lead{margin:0 0 18px 0;color:var(--muted);}
+    label{display:block;font-size:13px;margin-bottom:6px;color:#12202b;}
+    input[type="email"], input[type="password"]{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid #e6e9ee;
+      background:#fbfdff;
+      font-size:15px;
+      margin-bottom:14px;
+      box-sizing:border-box;
+    }
+    .btn{
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:10px;
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      font-size:15px;
+    }
+    .btn.ghost{
+      background:transparent;
+      border:1px solid #e6e9ee;
+      color:#0f172a;
+    }
+    .row{display:flex;gap:10px;align-items:center;}
+    .muted{color:var(--muted);font-size:13px;}
+    .helpers{margin-top:12px;display:flex;justify-content:space-between;align-items:center;}
+    .tiny{font-size:13px;color:var(--muted)}
+    .error{color:#cc241d;margin-top:10px}
+
+    /* footer note */
+    .small-note{margin-top:18px;font-size:13px;color:var(--muted)}
+
+    /* responsive */
+    @media (max-width:880px){
+      .wrap{grid-template-columns:1fr; padding:0 10px;}
+      .brand{height:auto; order:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand card">
+      <div class="logo"><span class="dot"></span> Solvoro</div>
+      <div class="teaser">
+        Simple, fast sign-in for customers. Create an account or continue with Google.
+      </div>
+
+      <div class="small-note">Don't have an account? Sign up in the checkout flow or ask admin to invite you.</div>
+    </div>
+
+    <div class="card" style="min-height:320px;">
+      <h1>Sign in</h1>
+      <p class="lead">Access creative assets, place orders, and manage your profile.</p>
+
+      <div id="form">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@company.com" />
+
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="••••••••" />
+
+        <div class="row" style="margin-top:8px;">
+          <button id="signinBtn" class="btn">Sign in</button>
+          <button id="googleBtn" class="btn ghost">Continue with Google</button>
+        </div>
+
+        <div class="helpers">
+          <div class="tiny"><a href="#" id="forgot">Forgot password?</a></div>
+          <div class="tiny">Are you an admin? <a href="admin-login.html">Admin login</a></div>
+        </div>
+
+        <div id="error" class="error" role="alert" style="display:none"></div>
+
+        <div class="small-note">By continuing you agree to Solvoro Terms.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase + app script -->
+  <script type="module">
+    import { auth, signInWithEmail, signInWithGoogle } from './firebase.js';
+    import { signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"; // helper for fallback (not normally needed)
+
+    const emailIn = document.getElementById('email');
+    const passIn  = document.getElementById('password');
+    const signinBtn = document.getElementById('signinBtn');
+    const googleBtn = document.getElementById('googleBtn');
+    const errorEl = document.getElementById('error');
+
+    function showError(msg){
+      errorEl.style.display = 'block';
+      errorEl.textContent = msg;
+    }
+    function clearError(){
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
+
+    signinBtn.addEventListener('click', async () => {
+      clearError();
+      const email = (emailIn.value || '').trim();
+      const password = passIn.value || '';
+      if (!email || !password) return showError('Please enter email and password.');
+      signinBtn.disabled = true;
+      signinBtn.textContent = 'Signing in...';
+      try {
+        await signInWithEmail(email, password); // returns credential
+        // redirect to public dashboard or homepage:
+        window.location.href = '/dashboard.html'; // adjust target as needed
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'Sign-in failed.');
+      } finally {
+        signinBtn.disabled = false;
+        signinBtn.textContent = 'Sign in';
+      }
+    });
+
+    googleBtn.addEventListener('click', async () => {
+      clearError();
+      googleBtn.disabled = true;
+      googleBtn.textContent = 'Continuing...';
+      try {
+        await signInWithGoogle(); // from firebase.js
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'Google sign-in failed.');
+      } finally {
+        googleBtn.disabled = false;
+        googleBtn.textContent = 'Continue with Google';
+      }
+    });
+
+    // simple forgot password handler (opens Firebase reset flow via console or implement expediently)
+    document.getElementById('forgot').addEventListener('click', e=>{
+      e.preventDefault();
+      alert('Use "Reset password" from the account page or contact the site admin to reset your password.');
+    });
+  </script>
+</body>
+</html>
