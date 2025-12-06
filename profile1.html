@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solvoro — Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #0f766e;
+      --border: #e5e7eb;
+      --bg: #f5f5f5;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    /* Header (same pattern as edit page) */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f9fafb, #e5e7eb);
+      border: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-main);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+    .brand-text-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .brand-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .nav-link {
+      border-radius: 999px;
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 150ms ease, border-color 150ms ease, color 150ms ease,
+        transform 150ms ease, box-shadow 150ms ease;
+    }
+    .nav-link:hover {
+      background: #f9fafb;
+      border-color: #e5e7eb;
+      color: var(--text-main);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    }
+    .nav-link.active {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+    .signout-btn {
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+    }
+    .signout-btn:hover {
+      background: #f3f4f6;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+    }
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeInUp 260ms ease-out forwards;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .profile-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+      gap: 22px;
+    }
+    @media (max-width: 720px) {
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .profile-main {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+      padding: 20px 20px 24px;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+    .profile-main:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 50px rgba(15,23,42,0.12);
+    }
+
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .avatar-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f9fafb, #e5e7eb);
+      border: 1px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 26px;
+      color: #111827;
+      box-shadow: 0 10px 22px rgba(15,23,42,0.20);
+    }
+    .profile-name {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .profile-username {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .profile-email {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .chip {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: var(--text-muted);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #f3f4f6;
+      margin: 16px 0;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .section-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: pre-wrap;
+    }
+
+    .inline-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .profile-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 16px;
+      margin-top: 10px;
+    }
+    @media (max-width: 640px) {
+      .profile-meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .meta-box {
+      padding: 10px 11px;
+      border-radius: 10px;
+      border: 1px dashed #e5e7eb;
+      background: #f9fafb;
+    }
+    .meta-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .meta-value {
+      font-size: 13px;
+    }
+
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .side-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+      padding: 16px 16px 18px;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.06);
+    }
+    .side-label {
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .side-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      background: #111827;
+      color: #f9fafb;
+      cursor: pointer;
+      transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+    }
+    .btn:hover {
+      background: #020617;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(15,23,42,0.30);
+    }
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text-muted);
+      border-color: #e5e7eb;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.06);
+    }
+    .btn-secondary:hover {
+      background: #f3f4f6;
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      min-height: 18px;
+    }
+    .status.error {
+      color: #b91c1c;
+    }
+
+    .empty-state {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo">S</div>
+        <div>
+          <div class="brand-text-title">Solvoro</div>
+          <div class="brand-text-sub">Client area</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="profile.html" class="nav-link active">Profile</a>
+        <div class="header-user" id="headerUserEmail"></div>
+        <button id="signOutBtn" class="signout-btn">Sign out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="fade-in">
+      <div class="profile-layout" id="profileLayout" style="display:none;">
+        <!-- Main profile card -->
+        <div class="profile-main">
+          <div class="avatar-row">
+            <div class="avatar-circle" id="avatarCircle">S</div>
+            <div>
+              <div class="profile-name" id="profileName">Your name</div>
+              <div class="profile-username" id="profileUserId">@yourid</div>
+              <div class="profile-email" id="profileEmail">email@example.com</div>
+              <div class="chip-row">
+                <div class="chip" id="chipStatus">Profile draft</div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div>
+            <div class="section-title">About</div>
+            <p class="section-text" id="aboutText">
+              You have not added an about section yet.
+            </p>
+          </div>
+
+          <hr class="divider">
+
+          <div class="section-title">Details</div>
+          <div class="profile-meta-grid">
+            <div class="meta-box">
+              <div class="meta-label">Phone</div>
+              <div class="meta-value" id="metaPhone">Not set</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Address</div>
+              <div class="meta-value" id="metaAddress">Not set</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">City</div>
+              <div class="meta-value" id="metaCity">Not set</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Country</div>
+              <div class="meta-value" id="metaCountry">Not set</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side cards -->
+        <aside class="side-panel">
+          <div class="side-card">
+            <div class="side-label">Profile</div>
+            <div class="side-text">
+              This is how your info appears inside Solvoro. You can update your details any time.
+            </div>
+            <div class="btn-row">
+              <button class="btn-secondary btn" id="editProfileBtn">Edit profile</button>
+            </div>
+          </div>
+
+          <div class="side-card">
+            <div class="side-label">Account</div>
+            <div class="side-text">
+              Logged in as <span id="sideEmail">email@example.com</span>.
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div id="emptyState" class="empty-state" style="display:none;">
+        No profile found yet. Please create your profile first.
+        <br>
+        <button class="btn-secondary btn" id="goEditBtn" style="margin-top:10px;">Create profile</button>
+      </div>
+
+      <div id="statusText" class="status"></div>
+    </section>
+  </main>
+
+  <!-- Firebase + logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBbWQgBjAIAn-OI3DzDAqx7lmLmbUCUAWU",
+      authDomain: "solvoro-c9155.firebaseapp.com",
+      projectId: "solvoro-c9155",
+      storageBucket: "solvoro-c9155.firebasestorage.app",
+      messagingSenderId: "536457030363",
+      appId: "1:536457030363:web:e3315527c15fc037ba3afe",
+      measurementId: "G-Z47VFQ3C7Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const headerUserEmail = document.getElementById("headerUserEmail");
+    const signOutBtn = document.getElementById("signOutBtn");
+    const avatarCircle = document.getElementById("avatarCircle");
+    const profileName = document.getElementById("profileName");
+    const profileUserId = document.getElementById("profileUserId");
+    const profileEmail = document.getElementById("profileEmail");
+    const chipStatus = document.getElementById("chipStatus");
+
+    const metaPhone = document.getElementById("metaPhone");
+    const metaAddress = document.getElementById("metaAddress");
+    const metaCity = document.getElementById("metaCity");
+    const metaCountry = document.getElementById("metaCountry");
+    const aboutText = document.getElementById("aboutText");
+    const sideEmail = document.getElementById("sideEmail");
+
+    const profileLayout = document.getElementById("profileLayout");
+    const emptyState = document.getElementById("emptyState");
+    const statusText = document.getElementById("statusText");
+    const editProfileBtn = document.getElementById("editProfileBtn");
+    const goEditBtn = document.getElementById("goEditBtn");
+
+    function firstLetter(str) {
+      if (!str) return "S";
+      return str.trim().charAt(0).toUpperCase();
+    }
+
+    function setStatus(message, type = "normal") {
+      statusText.textContent = message || "";
+      statusText.classList.remove("error");
+      if (type === "error") statusText.classList.add("error");
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+      const email = user.email || "";
+      headerUserEmail.textContent = email;
+      sideEmail.textContent = email;
+      profileEmail.textContent = email;
+      avatarCircle.textContent = firstLetter(email);
+
+      try {
+        const profileRef = doc(db, "profiles", user.uid);
+        const snap = await getDoc(profileRef);
+
+        if (!snap.exists()) {
+          profileLayout.style.display = "none";
+          emptyState.style.display = "block";
+          setStatus("");
+          return;
+        }
+
+        const data = snap.data();
+        const displayName = data.fullName || email || "Your name";
+        profileName.textContent = displayName;
+        avatarCircle.textContent = firstLetter(displayName);
+
+        if (data.userId) {
+          profileUserId.textContent = "@" + data.userId;
+          chipStatus.textContent = "Profile live";
+        } else {
+          profileUserId.textContent = "@your-id";
+          chipStatus.textContent = "Profile draft";
+        }
+
+        metaPhone.textContent = data.phone || "Not set";
+        const address = data.addressLine || "";
+        metaAddress.textContent = address || "Not set";
+        metaCity.textContent = data.city || "Not set";
+        metaCountry.textContent = data.country || "Not set";
+        aboutText.textContent = data.about || "You have not added an about section yet.";
+
+        profileLayout.style.display = "grid";
+        emptyState.style.display = "none";
+        setStatus("");
+      } catch (err) {
+        console.error(err);
+        setStatus("Failed to load profile.", "error");
+        emptyState.style.display = "block";
+      }
+    });
+
+    signOutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error(err);
+        setStatus("Failed to sign out.", "error");
+      }
+    });
+
+    editProfileBtn.addEventListener("click", () => {
+      window.location.href = "profile-edit.html";
+    });
+    goEditBtn.addEventListener("click", () => {
+      window.location.href = "profile-edit.html";
+    });
+  </script>
+</body>
+</html>
